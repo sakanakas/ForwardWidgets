@@ -544,19 +544,20 @@ function normalizeItem(item) {
         return null;
     }
 
-    const title = item.title || item.name;
+    const title = item.name || item.title;
     const id = item.id || item.tmdbId;
     if (!title || !id) {
         return null;
     }
-    const mediaType = item.media_type === "movie" || item.media_type === "tv" ? item.media_type : "tv";
-
+    // const mediaType = item.media_type === "movie" ? "movie" : "tv";
+    const mediaType = item.media_type;
+    
     return {
         id,
         type: "tmdb",
         title,
         description: item.overview,
-        releaseDate: item.first_air_date || item.release_date,
+        releaseDate: item.first_air_date,
         posterPath: item.poster_path,
         backdropPath: item.backdrop_path,
         rating: item.vote_average,
@@ -567,7 +568,7 @@ function normalizeItem(item) {
 
 function genreTitleWith(genreIds) {
     if (!Array.isArray(genreIds) || genreIds.length === 0) {
-        return "";
+        return null;
     }
 
     const genreMap = {
