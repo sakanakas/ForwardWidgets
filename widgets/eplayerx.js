@@ -24,7 +24,7 @@ WidgetMetadata = {
                     name: "language",
                     title: "语言",
                     type: "input",
-                    value: "zh-Hans",
+                    value: "zh-Hans"
                 },
                 {
                     name: "page",
@@ -44,7 +44,7 @@ WidgetMetadata = {
                     name: "language",
                     title: "语言",
                     type: "input",
-                    value: "zh-Hans",
+                    value: "zh-Hans"
                 },
                 {
                     name: "page",
@@ -78,13 +78,13 @@ WidgetMetadata = {
                     name: "language",
                     title: "语言",
                     type: "input",
-                    value: "zh-Hans",
+                    value: "zh-Hans"
                 },
                 {
                     name: "timezone",
                     title: "时区",
                     type: "input",
-                    value: "Asia/Shanghai",
+                    value: "Asia/Shanghai"
                 }
             ]
         },
@@ -119,7 +119,7 @@ WidgetMetadata = {
                     name: "language",
                     title: "语言",
                     type: "input",
-                    value: "zh-Hans",
+                    value: "zh-Hans"
                 },
                 {
                     name: "page",
@@ -135,35 +135,35 @@ WidgetMetadata = {
                     enumOptions: [
                         {
                             title: "剧情",
-                            value: "18",
+                            value: "18"
                         },
                         {
                             title: "喜剧",
-                            value: "35",
+                            value: "35"
                         },
                         {
                             title: "悬疑惊悚",
-                            value: "9648%2C53",
+                            value: "9648%2C53"
                         },
                         {
                             title: "动作",
-                            value: "28",
+                            value: "28"
                         },
                         {
                             title: "动画",
-                            value: "16",
+                            value: "16"
                         },
                         {
                             title: "犯罪",
-                            value: "80",
+                            value: "80"
                         },
                         {
                             title: "纪录片",
-                            value: "99",
+                            value: "99"
                         },
                         {
                             title: "合家欢",
-                            value: "10751",
+                            value: "10751"
                         }
                     ]
                 },
@@ -174,7 +174,7 @@ WidgetMetadata = {
                     value: "movie",
                     enumOptions: [
                         { title: "电影", value: "movie" },
-                        { title: "电视剧", value: "tv" },
+                        { title: "电视剧", value: "tv" }
                     ]
                 }
             ]
@@ -189,7 +189,7 @@ WidgetMetadata = {
                     name: "language",
                     title: "元数据语言",
                     type: "input",
-                    value: "zh-Hans",
+                    value: "zh-Hans"
                 },
                 {
                     name: "page",
@@ -205,27 +205,27 @@ WidgetMetadata = {
                     enumOptions: [
                         {
                             title: "英语",
-                            value: "en",
+                            value: "en"
                         },
                         {
                             title: "中文",
-                            value: "zh",
+                            value: "zh"
                         },
                         {
                             title: "日语",
-                            value: "ja",
+                            value: "ja"
                         },
                         {
                             title: "韩语",
-                            value: "ko",
+                            value: "ko"
                         },
                         {
                             title: "西班牙语",
-                            value: "es",
+                            value: "es"
                         },
                         {
                             title: "泰语",
-                            value: "th",
+                            value: "th"
                         },
                         {
                             title: "印度语",
@@ -240,7 +240,7 @@ WidgetMetadata = {
                     value: "movie",
                     enumOptions: [
                         { title: "电影", value: "movie" },
-                        { title: "电视剧", value: "tv" },
+                        { title: "电视剧", value: "tv" }
                     ]
                 }
             ]
@@ -255,7 +255,7 @@ WidgetMetadata = {
                     name: "language",
                     title: "语言",
                     type: "input",
-                    value: "zh-Hans",
+                    value: "zh-Hans"
                 },
                 {
                     name: "page",
@@ -271,51 +271,51 @@ WidgetMetadata = {
                     enumOptions: [
                         {
                             title: "Netflix",
-                            value: "213",
+                            value: "213"
                         },
                         {
                             title: "Hulu",
-                            value: "453",
+                            value: "453"
                         },
                         {
                             title: "Apple TV+",
-                            value: "2552",
+                            value: "2552"
                         },
                         {
                             title: "Disney+",
-                            value: "2739",
+                            value: "2739"
                         },
                         {
                             title: "HBO Max",
-                            value: "3186",
+                            value: "3186"
                         },
                         {
                             title: "Peacock",
-                            value: "3353",
+                            value: "3353"
                         },
                         {
                             title: "Prime Video",
-                            value: "1024",
+                            value: "1024"
                         },
                         {
                             title: "腾讯视频",
-                            value: "2007",
+                            value: "2007"
                         },
                         {
                             title: "爱奇艺",
-                            value: "1330",
+                            value: "1330"
                         },
                         {
                             title: "优酷",
-                            value: "1419",
+                            value: "1419"
                         },
                         {
                             title: "芒果tv",
-                            value: "1631",
+                            value: "1631"
                         },
                         {
                             title: "哔哩哔哩",
-                            value: "1605",
+                            value: "1605"
                         }
                     ]
                 }
@@ -331,7 +331,7 @@ WidgetMetadata = {
                     name: "language",
                     title: "语言",
                     type: "input",
-                    value: "zh-Hans",
+                    value: "zh-Hans"
                 },
                 {
                     name: "page",
@@ -351,7 +351,7 @@ WidgetMetadata = {
                     name: "language",
                     title: "语言",
                     type: "input",
-                    value: "zh-Hans",
+                    value: "zh-Hans"
                 },
                 {
                     name: "page",
@@ -361,7 +361,7 @@ WidgetMetadata = {
                 }
             ]
         }
-    ],
+    ]
 }
 
 // https://tmdb.eplayerx.com/tmdb/trending/tv?language=zh-Hans&page=1
@@ -394,7 +394,6 @@ async function doubanAnimation() {
         console.error("获取今日热门动漫失败:", error);
         throw error;
     }
-
 }
 
 // https://tmdb.eplayerx.com/crawler/popular/bangumi/animation
@@ -511,6 +510,7 @@ async function fetchData(api) {
     }
 
     const payload = response.data;
+    const fallbackMediaType = inferMediaTypeFromApi(api);
     // 兼容不同接口返回：[]、{ data: [] }、{ results: [] }、{ items: [] }
     let selectedField = "none";
     let data = [];
@@ -534,12 +534,13 @@ async function fetchData(api) {
         payloadType: Array.isArray(payload) ? "array" : typeof payload,
         selectedField,
         listLength: data.length,
+        fallbackMediaType
     });
 
-    return data.map(normalizeItem).filter(Boolean);
+    return data.map((item) => normalizeItem(item, fallbackMediaType)).filter(Boolean);
 }
 
-function normalizeItem(item) {
+function normalizeItem(item, fallbackMediaType) {
     if (!item || typeof item !== "object") {
         return null;
     }
@@ -549,21 +550,44 @@ function normalizeItem(item) {
     if (!title || !id) {
         return null;
     }
-    // const mediaType = item.media_type === "movie" ? "movie" : "tv";
-    const mediaType = item.media_type;
-    
+    const mediaType = item.media_type === "movie" || item.media_type === "tv"
+        ? item.media_type
+        : (fallbackMediaType || "tv");
+
     return {
         id,
         type: "tmdb",
         title,
         description: item.overview,
-        releaseDate: item.first_air_date,
+        releaseDate: item.release_date || item.first_air_date,
         posterPath: item.poster_path,
         backdropPath: item.backdrop_path,
         rating: item.vote_average,
         mediaType,
-        genreTitle: genreTitleWith(item.genre_ids),
+        genreTitle: genreTitleWith(item.genre_ids)
     };
+}
+
+function inferMediaTypeFromApi(api) {
+    const path = api.toLowerCase();
+
+    if (
+        path.includes("/movie/") ||
+        path.includes("/trending/movie") ||
+        path.includes("/discover/movie")
+    ) {
+        return "movie";
+    }
+
+    if (
+        path.includes("/tv/") ||
+        path.includes("/trending/tv") ||
+        path.includes("/discover/tv")
+    ) {
+        return "tv";
+    }
+
+    return null;
 }
 
 function genreTitleWith(genreIds) {
@@ -598,7 +622,7 @@ function genreTitleWith(genreIds) {
         878: "科幻",
         10770: "电视电影",
         53: "惊悚",
-        10752: "战争",
+        10752: "战争"
     };
 
     return genreIds
