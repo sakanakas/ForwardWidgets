@@ -8,7 +8,7 @@ const HEADERS = {
 WidgetMetadata = {
     id: "nathalie.eplayerx",
     title: "𝑬𝒑𝒍𝒂𝒚𝒆𝒓𝑿",
-    version: "1.0.0",
+    version: "1.2.0",
     requiredVersion: "0.0.1",
     description: "获取 EplayerX 主页的榜单数据",
     author: "𝑵𝒂𝒕𝒉𝒂𝒍𝒊𝒆",

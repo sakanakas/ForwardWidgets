@@ -7,7 +7,7 @@ const HEADERS = {
 WidgetMetadata = {
     id: "nathalie.reflix",
     title: "𝑹𝒆𝒇𝒍𝒊𝒙",
-    version: "1.0.0",
+    version: "2.2.0",
     requiredVersion: "0.0.1",
     description: "获取 Reflix 主页的榜单数据",
     author: "𝑵𝒂𝒕𝒉𝒂𝒍𝒊𝒆",
@@ -43,14 +43,92 @@ WidgetMetadata = {
             functionName: "trendingSeries",
             type: "video",
             cacheDuration: 3600,
-            params: []
+            params: [
+                {
+                    name: "type",
+                    title: "类型",
+                    type: "enumeration",
+                    value: "homepage",
+                    enumOptions: [
+                        { title: "首页", value: "homepage" },
+                        { title: "详情页", value: "detailpage" }
+                    ]
+                },
+                {
+                    name: "page",
+                    title: "页码",
+                    type: "page",
+                    belongTo: {
+                        paramName: "type",
+                        value: ["detailpage"]
+                    },
+                    startPage: 1
+                },
+                {
+                    name: "sort_by",
+                    title: "类型排序",
+                    type: "enumeration",
+                    value: "tv:popularity.desc",
+                    belongTo: {
+                        paramName: "type",
+                        value: ["detailpage"]
+                    },
+                    enumOptions: [
+                        { title: "热门降序", value: "tv:popularity.desc" },
+                        { title: "热门升序", value: "tv:popularity.asc" },
+                        { title: "评分降序", value: "tv:vote_average.desc" },
+                        { title: "评分升序", value: "tv:vote_average.asc" },
+                        { title: "上映时间降序", value: "tv:first_air_date.desc" },
+                        { title: "上映时间升序", value: "tv:first_air_date.asc" }
+                    ]
+                }
+            ]
         },
         {
             title: "今日热门电影",
             functionName: "trendingMovies",
             type: "video",
             cacheDuration: 3600,
-            params: []
+            params: [
+                {
+                    name: "type",
+                    title: "类型",
+                    type: "enumeration",
+                    value: "homepage",
+                    enumOptions: [
+                        { title: "首页", value: "homepage" },
+                        { title: "详情页", value: "detailpage" }
+                    ]
+                },
+                {
+                    name: "page",
+                    title: "页码",
+                    type: "page",
+                    belongTo: {
+                        paramName: "type",
+                        value: ["detailpage"]
+                    },
+                    startPage: 1
+                },
+                {
+                    name: "sort_by",
+                    title: "类型排序",
+                    type: "enumeration",
+                    value: "movie:popularity.desc",
+                    belongTo: {
+                        paramName: "type",
+                        value: ["detailpage"]
+                    },
+                    enumOptions: [
+                        { title: "热门降序", value: "movie:popularity.desc" },
+                        { title: "热门升序", value: "movie:popularity.asc" },
+                        { title: "评分降序", value: "movie:vote_average.desc" },
+                        { title: "评分升序", value: "movie:vote_average.asc" },
+                        { title: "上映时间降序", value: "movie:first_air_date.desc" },
+                        { title: "上映时间升序", value: "movie:first_air_date.asc" }
+                    ]
+                }
+            ]
         },
         {
             title: "今日热门动漫",
@@ -300,8 +378,14 @@ async function recommendations(params) {
 
 async function trendingSeries(params) {
     try {
-        const allData = await fetchAllData(params.language);
-        return (allData.trending_series || []).map(normalizeItem).filter(Boolean);
+        // 今日热门剧集-首页
+        if (params.type === "homepage") {
+            const allData = await fetchAllData(params.language);
+            return (allData.trending_series || []).map(normalizeItem).filter(Boolean);
+        } else {
+            // 今日热门剧集-详情页
+            return await fetchLookupItems(params, null, "/trending/*/day");
+        }
     } catch (error) {
         console.error("获取今日热门剧集失败:", error);
         throw error;
@@ -310,8 +394,14 @@ async function trendingSeries(params) {
 
 async function trendingMovies(params) {
     try {
-        const allData = await fetchAllData(params.language);
-        return (allData.trending_movies || []).map(normalizeItem).filter(Boolean);
+        // 今日热门电影-首页
+        if (params.type === "homepage") {
+            const allData = await fetchAllData(params.language);
+            return (allData.trending_movies || []).map(normalizeItem).filter(Boolean);
+        } else {
+            // 今日热门电影-详情页
+            return await fetchLookupItems(params, null, "/trending/*/day");
+        }
     } catch (error) {
         console.error("获取今日热门电影失败:", error);
         throw error;
@@ -353,7 +443,7 @@ async function realTimeTrendingMovies(params) {
 // https://api.reflix.top/lookup?language=zh-CN&path=/discover/tv?with_genres%3D18%26page%3D1%26sort_by%3Dpopularity.desc
 async function lookupWithGenres(params) {
     try {
-        return await fetchLookupItems(params, "with_genres");
+        return await fetchLookupItems(params, "with_genres", "/discover/*");
     } catch (error) {
         console.error("获取按分类浏览数据失败:", error);
         throw error;
@@ -393,42 +483,11 @@ async function highRateAnimes(params) {
 // https://api.reflix.top/lookup?language=zh-CN&path=/discover/tv?with_networks%3D213%26page%3D1%26sort_by%3Dpopularity.desc
 async function lookupWithNetworks(params) {
     try {
-        return await fetchLookupItems(params, "with_networks");
+        return await fetchLookupItems(params, "with_networks", "/discover/*");
     } catch (error) {
         console.error("获取按工作室浏览数据失败:", error);
         throw error;
     }
-}
-
-async function fetchLookupItems(params, filterKey) {
-    const [mediaType, sortBy] = params.sort_by.split(":");
-    const lookupPath = `/discover/${mediaType}`;
-    const lookupPathQuery = [
-        `${filterKey}=${params[filterKey]}`,
-        `page=${params.page}`,
-        `sort_by=${sortBy}`
-    ].join("&");
-    const query = [
-        `language=${params.language}`,
-        `path=${lookupPath}?${encodeURIComponent(lookupPathQuery)}`
-    ].join("&");
-
-    const response = await Widget.http.get(`https://api.reflix.top/lookup?${query}`, { headers: HEADERS });
-    if (!response || !response.data) {
-        throw new Error("获取 Reflix Lookup 数据失败");
-    }
-
-    const payload = response.data;
-    const items = Array.isArray(payload?.items) ? payload.items : [];
-
-    console.log("[Reflix Lookup] 响应解析:", {
-        url: "https://api.reflix.top/lookup",
-        language: params.language,
-        path: `${lookupPath}?${lookupPathQuery}`,
-        listLength: items.length
-    });
-
-    return items.map(normalizeItem).filter(Boolean);
 }
 
 async function certifiedFreshMovies(params) {
@@ -524,6 +583,41 @@ async function fetchAllData(language) {
     });
 
     return response.data;
+}
+
+async function fetchLookupItems(params, filterKey, pathTemplate) {
+    const [mediaType, sortBy] = params.sort_by.split(":");
+    const lookupPath = pathTemplate.replace("*", mediaType);
+    const lookupPathQueryParts = [
+        `page=${params.page}`,
+        `sort_by=${sortBy}`
+    ];
+    if (filterKey) {
+        lookupPathQueryParts.unshift(`${filterKey}=${params[filterKey]}`);
+    }
+    const lookupPathQuery = lookupPathQueryParts.join("&");
+
+    const query = [
+        `language=${params.language}`,
+        `path=${lookupPath}?${encodeURIComponent(lookupPathQuery)}`
+    ].join("&");
+
+    const response = await Widget.http.get(`https://api.reflix.top/lookup?${query}`, { headers: HEADERS });
+    if (!response || !response.data) {
+        throw new Error("获取 Reflix Lookup 数据失败");
+    }
+
+    const payload = response.data;
+    const items = Array.isArray(payload?.items) ? payload.items : [];
+
+    console.log("[Reflix Lookup] 响应解析:", {
+        url: "https://api.reflix.top/lookup",
+        language: params.language,
+        path: `${lookupPath}?${lookupPathQuery}`,
+        listLength: items.length
+    });
+
+    return items.map(normalizeItem).filter(Boolean);
 }
 
 function normalizeItem(item) {
