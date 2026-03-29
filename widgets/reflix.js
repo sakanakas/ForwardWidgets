@@ -93,31 +93,31 @@ WidgetMetadata = {
                     enumOptions: [
                         {
                             title: "Drama",  // 剧情
-                            value: "18",
+                            value: "18"
                         },
                         {
                             title: "Comedy",  // 喜剧 
-                            value: "35",
+                            value: "35"
                         },
                         {
                             title: "Thriller & Mystery",  // 悬疑惊悚
-                            value: "9648",
+                            value: "9648"
                         },
                         {
                             title: "Animation",  // 动画
-                            value: "16",
+                            value: "16"
                         },
                         {
                             title: "Crime",  // 犯罪
-                            value: "80",
+                            value: "80"
                         },
                         {
                             title: "Documentary",  // 纪录片
-                            value: "99",
+                            value: "99"
                         },
                         {
                             title: "Kids & Family",  // 合家欢
-                            value: "10751",
+                            value: "10751"
                         }
                     ]
                 },
@@ -163,6 +163,76 @@ WidgetMetadata = {
             type: "video",
             cacheDuration: 3600,
             params: []
+        },
+        {
+            title: "按工作室浏览",
+            functionName: "lookupWithNetworks",
+            type: "video",
+            cacheDuration: 3600,
+            params: [
+                {
+                    name: "page",
+                    title: "页码",
+                    type: "page",
+                    startPage: 1
+                },
+                {
+                    name: "with_networks",
+                    title: "工作室",
+                    type: "enumeration",
+                    value: "213",
+                    enumOptions: [
+                        {
+                            title: "Netflix",
+                            value: "213"
+                        },
+                        {
+                            title: "Hulu",
+                            value: "453"
+                        },
+                        {
+                            title: "Apple TV+",
+                            value: "2552"
+                        },
+                        {
+                            title: "Disney+",
+                            value: "2739"
+                        },
+                        {
+                            title: "Paramount+",
+                            value: "4330"
+                        },
+                        {
+                            title: "Max",
+                            value: "3186"
+                        },
+                        {
+                            title: "Peacock",
+                            value: "3353"
+                        }
+                    ]
+                },
+                {
+                    name: "sort_by",
+                    title: "类型排序",
+                    type: "enumeration",
+                    value: "tv:popularity.desc",
+                    enumOptions: [
+                        { title: "剧集:热门降序", value: "tv:popularity.desc" },
+                        { title: "剧集:热门升序", value: "tv:popularity.asc" },
+                        { title: "剧集:评分降序", value: "tv:vote_average.desc" },
+                        { title: "剧集:评分升序", value: "tv:vote_average.asc" },
+                        { title: "剧集:上映时间降序", value: "tv:first_air_date.desc" },
+                        { title: "剧集:上映时间升序", value: "tv:first_air_date.asc" },
+                        { title: "电影:热门降序", value: "movie:popularity.desc" },
+                        { title: "电影:热门升序", value: "movie:popularity.asc" },
+                        { title: "电影:评分降序", value: "movie:vote_average.desc" },
+                        { title: "电影:评分升序", value: "movie:vote_average.asc" },
+                        { title: "电影:上映时间降序", value: "movie:first_air_date.desc" },
+                        { title: "电影:上映时间升序", value: "movie:first_air_date.asc" }
+                    ]
+                }
+            ]
         },
         {
             title: "认证的新鲜电影",
@@ -213,8 +283,9 @@ WidgetMetadata = {
             cacheDuration: 3600,
             params: []
         }
-    ],
-}
+    ]
+};
+
 
 // https://api.reflix.top/discover/v2?language=zh-CN
 async function recommendations(params) {
@@ -282,36 +353,7 @@ async function realTimeTrendingMovies(params) {
 // https://api.reflix.top/lookup?language=zh-CN&path=/discover/tv?with_genres%3D18%26page%3D1%26sort_by%3Dpopularity.desc
 async function lookupWithGenres(params) {
     try {
-        const [mediaType, sortBy] = params.sort_by.split(":");
-
-        const lookupPath = `/discover/${mediaType}`;
-        const lookupPathQuery = [
-            `with_genres=${encodeURIComponent(params.with_genres)}`,
-            `page=${encodeURIComponent(params.page)}`,
-            `sort_by=${encodeURIComponent(sortBy)}`,
-        ].join("&");
-
-        const query = [
-            `language=${encodeURIComponent(params.language)}`,
-            `path=${encodeURIComponent(`${lookupPath}?${lookupPathQuery}`)}`,
-        ].join("&");
-
-        const response = await Widget.http.get(`https://api.reflix.top/lookup?${query}`, { headers: HEADERS });
-        if (!response || !response.data) {
-            throw new Error("获取 Reflix Lookup 数据失败");
-        }
-
-        const payload = response.data;
-        const items = Array.isArray(payload?.items) ? payload.items : [];
-
-        console.log("[Reflix Lookup] 响应解析:", {
-            url: "https://api.reflix.top/lookup",
-            language: params.language,
-            path: `${lookupPath}?${lookupPathQuery}`,
-            listLength: items.length,
-        });
-
-        return items.map(normalizeItem).filter(Boolean);
+        return await fetchLookupItems(params, "with_genres");
     } catch (error) {
         console.error("获取按分类浏览数据失败:", error);
         throw error;
@@ -346,6 +388,47 @@ async function highRateAnimes(params) {
         console.error("获取高分动漫精选失败:", error);
         throw error;
     }
+}
+
+// https://api.reflix.top/lookup?language=zh-CN&path=/discover/tv?with_networks%3D213%26page%3D1%26sort_by%3Dpopularity.desc
+async function lookupWithNetworks(params) {
+    try {
+        return await fetchLookupItems(params, "with_networks");
+    } catch (error) {
+        console.error("获取按工作室浏览数据失败:", error);
+        throw error;
+    }
+}
+
+async function fetchLookupItems(params, filterKey) {
+    const [mediaType, sortBy] = params.sort_by.split(":");
+    const lookupPath = `/discover/${mediaType}`;
+    const lookupPathQuery = [
+        `${filterKey}=${params[filterKey]}`,
+        `page=${params.page}`,
+        `sort_by=${sortBy}`
+    ].join("&");
+    const query = [
+        `language=${params.language}`,
+        `path=${lookupPath}?${encodeURIComponent(lookupPathQuery)}`
+    ].join("&");
+
+    const response = await Widget.http.get(`https://api.reflix.top/lookup?${query}`, { headers: HEADERS });
+    if (!response || !response.data) {
+        throw new Error("获取 Reflix Lookup 数据失败");
+    }
+
+    const payload = response.data;
+    const items = Array.isArray(payload?.items) ? payload.items : [];
+
+    console.log("[Reflix Lookup] 响应解析:", {
+        url: "https://api.reflix.top/lookup",
+        language: params.language,
+        path: `${lookupPath}?${lookupPathQuery}`,
+        listLength: items.length
+    });
+
+    return items.map(normalizeItem).filter(Boolean);
 }
 
 async function certifiedFreshMovies(params) {
@@ -437,7 +520,7 @@ async function fetchAllData(language) {
     console.log("[Reflix] 响应解析:", {
         url: BASE_URL,
         language,
-        payloadType: typeof response.data,
+        payloadType: typeof response.data
     });
 
     return response.data;
@@ -467,7 +550,7 @@ function normalizeItem(item) {
         backdropPath: item.backdrop_image_url,
         rating: item.vote_average,
         mediaType,
-        genreTitle: genreTitleWith(item.genres),
+        genreTitle: genreTitleWith(item.genres)
     };
 }
 
@@ -478,7 +561,7 @@ function genreTitleWith(genreData) {
 
     const genreNameMap = {
         "Sci-Fi & Fantasy": "科幻奇幻",
-        "War & Politics": "战争政治",
+        "War & Politics": "战争政治"
     };
 
     // 如果是字符串数组，直接取前两个
@@ -517,7 +600,7 @@ function genreTitleWith(genreData) {
         878: "科幻",
         10770: "电视电影",
         53: "惊悚",
-        10752: "战争",
+        10752: "战争"
     };
 
     return genreData
