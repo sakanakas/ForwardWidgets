@@ -1,0 +1,62 @@
+{
+    "name": "icon",
+    "description": "模块所需图标",
+    "icons": [
+        {
+            "name": "eplayerx",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/eplayerx.png"
+        },
+        {
+            "name": "reflix1",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/reflix1.png"
+        },
+        {
+            "name": "reflix2",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/reflix2.png"
+        },
+        {
+            "name": "reflix3",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/reflix3.png"
+        },
+        {
+            "name": "bilibili",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/bilibili.png"
+        },
+        {
+            "name": "iqiyi",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/iqiyi.png"
+        },
+        {
+            "name": "mgtv",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/mgtv.png"
+        },
+        {
+            "name": "netflix",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/netflix.png"
+        },
+        {
+            "name": "peacock1",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/peacock1.png"
+        },
+        {
+            "name": "peacock2",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/peacock2.png"
+        },
+        {
+            "name": "peacock3",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/peacock3.png"
+        },
+        {
+            "name": "tencent1",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/tencent1.png"
+        },
+        {
+            "name": "tencent2",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/tencent2.png"
+        },
+        {
+            "name": "youku",
+            "url": "https://raw.githubusercontent.com/sakanakas/ForwardWidgets/refs/heads/main/icon/youku.png"
+        }
+    ]
+}
