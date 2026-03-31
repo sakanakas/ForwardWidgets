@@ -7,7 +7,7 @@ const HEADERS = {
 WidgetMetadata = {
     id: "nathalie.reflix",
     title: "𝑹𝒆𝒇𝒍𝒊𝒙",
-    version: "2.2.0",
+    version: "2.3.0",
     requiredVersion: "0.0.1",
     description: "获取 Reflix 主页的榜单数据",
     author: "𝑵𝒂𝒕𝒉𝒂𝒍𝒊𝒆",
@@ -35,8 +35,19 @@ WidgetMetadata = {
             title: "海报轮播图",
             functionName: "recommendations",
             type: "video",
-            cacheDuration: 3600,
-            params: []
+            cacheDuration: 60,
+            params: [
+                {
+                    name: "type",
+                    title: "类型",
+                    type: "enumeration",
+                    value: "ordered",
+                    enumOptions: [
+                        { title: "顺序", value: "ordered" },
+                        { title: "随机", value: "random" }
+                    ]
+                }
+            ]
         },
         {
             title: "今日热门剧集",
@@ -369,7 +380,11 @@ WidgetMetadata = {
 async function recommendations(params) {
     try {
         const allData = await fetchAllData(params.language);
-        return (allData.recommendations || []).map(normalizeItem).filter(Boolean);
+        const items = (allData.recommendations || []).map(normalizeItem).filter(Boolean);
+        if (params.type === "random") {
+            return shuffleItems(items);
+        }
+        return items;
     } catch (error) {
         console.error("获取海报轮播图失败:", error);
         throw error;
@@ -583,6 +598,15 @@ async function fetchAllData(language) {
     });
 
     return response.data;
+}
+
+function shuffleItems(items) {
+    const shuffled = [...items];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
 }
 
 async function fetchLookupItems(params, filterKey, pathTemplate) {
